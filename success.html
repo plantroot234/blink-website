@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Successful — Blink Client</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .success-box {
+      max-width: 540px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+    .check { font-size: 4rem; margin-bottom: 20px; }
+    .success-box h1 { margin-bottom: 16px; }
+    .success-box p { color: var(--muted); margin-bottom: 12px; }
+    .steps-mini { text-align: left; margin: 32px 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; }
+    .steps-mini li { padding: 6px 0; color: var(--muted); }
+    .steps-mini li strong { color: var(--text); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="/">⚡ Blink Client</a>
+  </nav>
+  <div class="success-box">
+    <div class="check">✅</div>
+    <h1>You're in!</h1>
+    <p>Payment confirmed. Your <strong>download link</strong> and <strong>license key</strong> are on their way to your email right now.</p>
+    <p class="small">Don't see it? Check your spam folder.</p>
+
+    <div class="steps-mini">
+      <ol>
+        <li style="margin-bottom:10px"><strong>Open the email</strong> from Blink Client and copy your license key.</li>
+        <li style="margin-bottom:10px"><strong>Install Fabric Loader</strong> for your Minecraft version at <a href="https://fabricmc.net/use/installer/" target="_blank">fabricmc.net</a>.</li>
+        <li style="margin-bottom:10px"><strong>Download Fabric API</strong> from <a href="https://modrinth.com/mod/fabric-api" target="_blank">Modrinth</a> and put it in your <code>mods</code> folder.</li>
+        <li style="margin-bottom:10px"><strong>Download Blink Client</strong> from the link in your email and put it in your <code>mods</code> folder.</li>
+        <li><strong>Launch Minecraft</strong> and press <kbd>Shift + Tab</kbd> to open the hack menu.</li>
+      </ol>
+    </div>
+
+    <a href="/" class="btn-primary">← Back to home</a>
+  </div>
+</body>
+</html>
