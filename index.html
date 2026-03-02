@@ -11,8 +11,30 @@
   <!-- NAV -->
   <nav>
     <span class="logo">⚡ Blink Client</span>
-    <a href="#pricing" class="nav-buy">Get Access</a>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button onclick="openModal()" style="background:transparent;border:1px solid var(--border);color:var(--text);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:0.9rem;" id="nav-auth-btn">Login</button>
+      <a href="#pricing" class="nav-buy">Get Access</a>
+    </div>
   </nav>
+
+  <!-- AUTH MODAL -->
+  <div id="modal-bg" onclick="closeModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;backdrop-filter:blur(4px);"></div>
+  <div id="modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:201;background:#0d0d1a;border:1px solid rgba(0,191,255,0.25);border-radius:16px;padding:36px;width:100%;max-width:400px;">
+    <div style="display:flex;gap:0;margin-bottom:24px;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+      <button class="modal-tab active" id="mtab-in" onclick="setModalMode('in')" style="flex:1;padding:10px;background:var(--accent);color:#000;border:none;font-weight:700;cursor:pointer;">Sign In</button>
+      <button class="modal-tab" id="mtab-up" onclick="setModalMode('up')" style="flex:1;padding:10px;background:transparent;color:var(--muted);border:none;font-weight:700;cursor:pointer;">Sign Up</button>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="display:block;margin-bottom:6px;font-size:0.82rem;color:var(--muted);">Email</label>
+      <input id="m-email" type="email" placeholder="you@example.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-size:0.95rem;outline:none;box-sizing:border-box;" />
+    </div>
+    <div style="margin-bottom:20px;">
+      <label style="display:block;margin-bottom:6px;font-size:0.82rem;color:var(--muted);">Password</label>
+      <input id="m-password" type="password" placeholder="••••••••" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-size:0.95rem;outline:none;box-sizing:border-box;" />
+    </div>
+    <button onclick="modalSubmit()" id="m-btn" style="width:100%;background:var(--accent);color:#000;border:none;border-radius:8px;padding:12px;font-size:1rem;font-weight:800;cursor:pointer;">Sign In</button>
+    <div id="m-msg" style="margin-top:12px;text-align:center;font-size:0.88rem;min-height:18px;"></div>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -148,6 +170,7 @@
     <span>Not affiliated with Mojang or Microsoft.</span>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
 </body>
 </html>
