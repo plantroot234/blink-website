@@ -66,13 +66,28 @@ async function modalSubmit() {
     if (error) {
       msg.style.color = '#ff5555';
       msg.textContent = error.status === 429 ? 'Too many attempts. Wait a moment.' : error.message;
-    } else if (data.user?.identities?.length === 0) {
+    } else if (!data.user || data.user.identities?.length === 0) {
+      // Confirmed account already exists
       msg.style.color = '#ff5555';
       msg.textContent = 'An account with this email already exists. Please sign in.';
       setModalMode('in');
+    } else if (!data.session) {
+      // No session = email confirmation required OR unconfirmed duplicate
+      // Try signing in to distinguish the two cases
+      const { error: signInErr } = await sb.auth.signInWithPassword({ email, password });
+      if (!signInErr) {
+        window.location.href = 'dashboard.html';
+      } else if (signInErr.message.toLowerCase().includes('confirm')) {
+        msg.style.color = '#55ff99';
+        msg.textContent = 'Check your email for a confirmation link.';
+      } else {
+        // Sign-in failed with different error = account exists with different password
+        msg.style.color = '#ff5555';
+        msg.textContent = 'An account with this email already exists. Please sign in.';
+        setModalMode('in');
+      }
     } else {
-      msg.style.color = '#55ff99';
-      msg.textContent = 'Check your email for a confirmation link.';
+      window.location.href = 'dashboard.html';
     }
   } else {
     const { error } = await sb.auth.signInWithPassword({ email, password });
