@@ -648,6 +648,130 @@ body.playing .eq-bar:nth-child(12) { animation: eq 0.41s ease-in-out 0.20s infin
   border-radius: 2px;
 }
 
+/* ── footer ── */
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.theme-switch {
+  font-family: 'VT323', monospace;
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.15s;
+}
+
+.theme-switch:hover {
+  color: var(--accent);
+}
+
+/* ── powered by claude button ── */
+.brutalist-button {
+  display: flex;
+  align-items: center;
+  width: 210px;
+  height: 56px;
+  background-color: #e3d19c;
+  color: #89530e;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  border: 3px solid #ffffff;
+  outline: 3px solid #1a1a1a;
+  box-shadow: 6px 6px 0 #ff6c37;
+  transition: all 0.2s ease-out;
+  padding: 0 12px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.brutalist-button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg at 50% 50%, #ff6c37, #9a77ff, #ff6c37);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  z-index: 1;
+  animation: btn-rotate 4s linear infinite;
+}
+
+@keyframes btn-rotate {
+  100% { transform: rotate(360deg); }
+}
+
+.brutalist-button:hover::before { opacity: 0.15; }
+.brutalist-button:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 #ff6c37;
+}
+.brutalist-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 #ff6c37;
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.claude-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.starburst {
+  font-size: 22px;
+  color: #eb6c22;
+  margin-right: 5px;
+  text-shadow: 1px 1px 0 #1a1a1a;
+  transition: transform 0.2s ease-out;
+}
+
+.brutalist-button:hover .starburst { transform: rotate(-15deg) scale(1.1); }
+.brutalist-button:active .starburst { transform: rotate(15deg) scale(0.9); }
+
+.claude-text {
+  font-family: Georgia, serif;
+  font-size: 19px;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 0 #e3d19c;
+}
+
+.button-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  position: relative;
+  z-index: 2;
+}
+
+.brutalist-button:hover .button-text { transform: skew(-5deg); }
+.brutalist-button:active .button-text { transform: skew(5deg); }
+
+.button-text span:first-child {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.button-text span:last-child {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 /* ── responsive ── */
 @media (max-width: 780px) {
   .layout {

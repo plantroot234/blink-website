@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg:       #08080c;
+  --surface:  #0e0e14;
+  --surface2: #13131b;
+  --accent:   #2455ff;
+  --accent2:  #22c55e;
+  --cyan:     #67e8f9;
+  --text:     #fafafa;
+  --muted:    #52525b;
+  --border:   rgba(255, 255, 255, 0.06);
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* kill the VHS stuff */
+.scanlines,
+.tracking-line { display: none; }
+
+.rec-badge {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.07);
+  color: var(--accent2);
+}
+
+.rec-dot { background: var(--accent2); }
+
+/* logo */
+.logo-text {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 2rem;
+  color: var(--text);
+}
+
+.logo-text::before { color: var(--cyan); }
+.logo-text::after  { color: var(--accent2); }
+
+.logo-fm { color: var(--muted); }
+
+/* vt elements -> DM Mono */
+.vt,
+.live-counter,
+.sidebar-count,
+.now-label,
+.time,
+.pl-num,
+.pl-dur,
+.empty-big { font-family: 'DM Mono', monospace; }
+
+.sidebar-label {
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+}
+
+/* sidebar */
+.sidebar {
+  background: var(--surface);
+  border-right-color: var(--border);
+}
+
+.sidebar-head { border-bottom-color: var(--border); }
+
+/* active item */
+.pl-item.active {
+  border-left-color: var(--accent);
+  background: rgba(36, 85, 255, 0.05);
+}
+
+.pl-item.active .pl-name { color: var(--accent); }
+.pl-item.active .pl-num  { color: var(--accent); }
+.pl-item:hover            { background: rgba(255,255,255,0.03); }
+
+/* cover */
+.cover-frame {
+  border-color: var(--border);
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(36,85,255,0.08);
+}
+
+/* eq bars -> blue */
+.eq-bar { background: var(--accent); }
+
+/* now playing */
+.now-label { color: var(--accent); opacity: 0.7; }
+
+/* track title */
+.track-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 1.8rem;
+}
+
+/* seek + progress */
+.seek-fill         { background: var(--accent); }
+.seek-fill::after  { background: var(--accent); }
+.seek-bar:hover .seek-fill::after { opacity: 1; }
+
+/* play button */
+.play-btn {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+.play-btn:hover {
+  background: #3a64ff !important;
+  transform: scale(1.06) !important;
+}
+
+.play-btn.playing {
+  box-shadow: 0 0 22px rgba(36, 85, 255, 0.35);
+}
+
+/* ctrl active state */
+.ctrl-btn.active { color: var(--accent); }
+
+/* vol slider thumb */
+.vol-slider:hover::-webkit-slider-thumb { background: var(--accent); }
+
+/* theme switch link */
+.theme-switch:hover { color: var(--accent); }
