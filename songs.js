@@ -2,7 +2,7 @@
 // Drop audio files in the songs/ folder, covers in covers/
 // Then add an entry here to make it show up in the Discover tab.
 
-const discoverSongs = [
+var discoverSongs = [
 
   {
     title:  "Midnight Sun",

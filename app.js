@@ -82,7 +82,12 @@ window._loadTrack      = loadTrack;
 function init() {
   queue = loadQueue();
 
-  // check that queued songs still exist in discoverSongs (optional safety check)
+  // first visit with empty queue — auto-load all discover songs
+  if (!queue.length && window.discoverSongs && discoverSongs.length) {
+    queue = [...discoverSongs];
+    saveQueue();
+  }
+
   renderPlaylist();
   trackCount.textContent = queue.length || '';
 
