@@ -42,15 +42,8 @@ function renderDiscover() {
     `;
 
     el.querySelector('.pl-details').addEventListener('click', () => {
-      // click title = add and immediately play
-      if (!window.getQueue().some(q => q.src === s.src)) {
-        window.addToQueue(s);
-      }
-      // switch to playlist tab and play this song
-      const playlistTab = document.querySelector('.stab[data-tab="playlist"]');
-      if (playlistTab) playlistTab.click();
-      const idx = window.getQueue().findIndex(q => q.src === s.src);
-      if (idx >= 0 && window.playTrack) window.playTrack(idx);
+      // click title = just play it directly, no queue change
+      if (window._loadDiscoverTrack) window._loadDiscoverTrack(s);
     });
 
     el.querySelector('.disc-heart').addEventListener('click', e => {

@@ -78,6 +78,19 @@ window.removeFromQueue = removeFromQueue;
 window.getQueue        = () => queue;
 window._loadTrack      = loadTrack;
 
+// play a song from discover without adding to queue
+window._loadDiscoverTrack = function(song) {
+  audio.src = song.src;
+  trackTitle.textContent  = song.title;
+  trackArtist.textContent = song.artist;
+  document.title = `${song.title} — BLINK`;
+  if (song.cover) { coverImg.src = song.cover; document.body.classList.add('has-cover'); }
+  else document.body.classList.remove('has-cover');
+  seekFill.style.width = '0%'; seekInput.value = 0;
+  timeNow.textContent = '0:00'; timeTotal.textContent = '0:00';
+  play();
+};
+
 // ── init ──
 function init() {
   queue = loadQueue();
