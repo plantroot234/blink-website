@@ -1,27 +1,14 @@
-// ── STATIC fm — song list ──
-//
-// Put your audio files in the songs/ folder.
-// Put album art in the covers/ folder (optional but looks good).
-//
-// To add a song, copy one of the blocks below and fill it in.
-// duration is optional — leave it out if you don't know it.
-//
-// Supported formats: mp3, ogg, wav, flac, m4a
+// ── BLINK fm — song library ──
+// Drop audio files in the songs/ folder, covers in covers/
+// Then add an entry here to make it show up in the Discover tab.
 
-const songs = [
+const discoverSongs = [
 
   {
     title:  "Midnight Sun",
     artist: "Ramzoid x Hal Walker",
     src:    "songs/midnight%20sun%20(ramzoid%20x%20hal%20walker).mp3",
+    // cover: "covers/midnight-sun.jpg",
   },
-
-  // {
-  //   title:    "Song Title",
-  //   artist:   "Artist Name",
-  //   src:      "songs/your-file.mp3",
-  //   cover:    "covers/your-art.jpg",   // optional
-  //   duration: "3:42"                   // optional
-  // },
 
 ];

@@ -34,25 +34,14 @@
     <div class="sidebar-head">
       <div class="sidebar-tabs">
         <button class="stab active" data-tab="playlist">playlist <span class="stab-count vt" id="trackCount"></span></button>
-        <button class="stab" data-tab="pending">pending <span class="stab-count vt" id="pendingCount"></span></button>
+        <button class="stab" data-tab="discover">discover</button>
       </div>
-      <button class="sidebar-add" id="submitBtn" title="Submit a song">+</button>
     </div>
     <div class="tab-pane active" id="pane-playlist">
-      <div class="playlist" id="playlist">
-        <div class="playlist-empty">
-          <p class="vt empty-big">NO SIGNAL</p>
-          <p class="empty-sub">no songs loaded yet</p>
-        </div>
-      </div>
+      <div class="playlist" id="playlist"></div>
     </div>
-    <div class="tab-pane" id="pane-pending">
-      <div class="pending-list" id="pendingList">
-        <div class="playlist-empty">
-          <p class="vt empty-big">EMPTY</p>
-          <p class="empty-sub">no submissions yet.<br>be the first.</p>
-        </div>
-      </div>
+    <div class="tab-pane" id="pane-discover">
+      <div class="discover-list" id="discoverList"></div>
     </div>
   </aside>
 
@@ -136,21 +125,6 @@
     <span class="pn-name">null</span>
   </a>
 </footer>
-
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-head">
-      <span class="modal-title vt">// SUBMIT A SONG</span>
-      <button class="modal-close" id="modalClose">✕</button>
-    </div>
-    <p class="modal-note">5 upvotes and it goes live on the tape</p>
-    <input class="modal-input" type="text" id="subTitle" placeholder="song title" maxlength="100">
-    <input class="modal-input" type="text" id="subArtist" placeholder="artist" maxlength="100">
-    <input class="modal-input" type="url" id="subUrl" placeholder="direct audio url (.mp3, .ogg, .wav)" maxlength="500">
-    <button class="modal-btn" id="subConfirm">drop it →</button>
-    <p class="modal-msg" id="subMsg"></p>
-  </div>
-</div>
 
 <audio id="audio"></audio>
 <script src="songs.js"></script>

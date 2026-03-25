@@ -12,41 +12,90 @@ const seekInput   = document.getElementById('seekInput');
 const timeNow     = document.getElementById('timeNow');
 const timeTotal   = document.getElementById('timeTotal');
 const volSlider   = document.getElementById('volSlider');
-const playlist    = document.getElementById('playlist');
+const playlistEl  = document.getElementById('playlist');
 const trackCount  = document.getElementById('trackCount');
 const liveCounter = document.getElementById('liveCounter');
 
-let currentIndex = 0;
-let shuffling    = false;
-let repeating    = false;
-let isPlaying    = false;
-let shuffled     = [];
+const QUEUE_KEY = 'blink_queue';
 
-async function init() {
-  // merge static songs with API-approved songs
-  let allSongs = window.songs ? [...songs] : [];
+let queue      = [];   // songs currently in playlist
+let currentIdx = 0;
+let shuffling  = false;
+let repeating  = false;
+let isPlaying  = false;
+let shuffled   = [];
 
-  try {
-    const res = await fetch('/api/approved');
-    if (res.ok) {
-      const approved = await res.json();
-      approved.forEach(s => allSongs.push({ title: s.title, artist: s.artist, src: s.url }));
-    }
-  } catch (_) {}
+// ── queue persistence ──
+function loadQueue() {
+  try { return JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]'); }
+  catch (_) { return []; }
+}
 
-  // replace global songs with merged list
-  window.songs = allSongs;
+function saveQueue() {
+  localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+}
 
-  if (!allSongs.length) return;
-
-  trackCount.textContent = allSongs.length;
-  buildShuffleOrder();
+function addToQueue(song) {
+  if (queue.find(s => s.src === song.src)) return; // already in queue
+  queue.push(song);
+  saveQueue();
   renderPlaylist();
-  loadTrack(0, false);
+  trackCount.textContent = queue.length || '';
+  if (queue.length === 1) loadTrack(0, false);
+}
+
+function removeFromQueue(src) {
+  const wasIdx = queue.findIndex(s => s.src === src);
+  queue = queue.filter(s => s.src !== src);
+  saveQueue();
+  renderPlaylist();
+  trackCount.textContent = queue.length || '';
+  if (!queue.length) {
+    resetPlayer();
+    return;
+  }
+  if (wasIdx <= currentIdx) {
+    currentIdx = Math.max(0, currentIdx - 1);
+  }
+}
+
+function resetPlayer() {
+  audio.src = '';
+  trackTitle.textContent  = 'nothing yet';
+  trackArtist.textContent = 'heart songs from discover';
+  document.body.classList.remove('has-cover', 'playing');
+  btnPlay.classList.remove('playing');
+  document.title = 'BLINK';
+  seekFill.style.width = '0%';
+  timeNow.textContent   = '0:00';
+  timeTotal.textContent = '0:00';
+  isPlaying = false;
+}
+
+// expose globally so discover tab can call them
+window.addToQueue      = addToQueue;
+window.removeFromQueue = removeFromQueue;
+window.getQueue        = () => queue;
+window._loadTrack      = loadTrack;
+
+// ── init ──
+function init() {
+  queue = loadQueue();
+
+  // check that queued songs still exist in discoverSongs (optional safety check)
+  renderPlaylist();
+  trackCount.textContent = queue.length || '';
+
+  if (queue.length) {
+    buildShuffleOrder();
+    loadTrack(0, false);
+  } else {
+    resetPlayer();
+  }
 }
 
 function buildShuffleOrder() {
-  shuffled = songs.map((_, i) => i);
+  shuffled = queue.map((_, i) => i);
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -54,37 +103,50 @@ function buildShuffleOrder() {
 }
 
 function renderPlaylist() {
-  playlist.innerHTML = '';
-  songs.forEach((s, i) => {
+  if (!queue.length) {
+    playlistEl.innerHTML = `
+      <div class="playlist-empty">
+        <p class="vt empty-big">EMPTY</p>
+        <p class="empty-sub">heart songs from discover<br>to build your playlist</p>
+      </div>`;
+    return;
+  }
+
+  playlistEl.innerHTML = '';
+  queue.forEach((s, i) => {
     const el = document.createElement('div');
-    el.className = 'pl-item' + (i === currentIndex ? ' active' : '');
-    el.dataset.i = i;
+    el.className = 'pl-item' + (i === currentIdx ? ' active' : '');
     el.innerHTML = `
       <span class="pl-num vt">
         <span class="pl-num-static">${String(i + 1).padStart(2, '0')}</span>
         <span class="pl-num-playing">▶</span>
       </span>
       <div class="pl-details">
-        <div class="pl-name">${s.title}</div>
-        <div class="pl-by">${s.artist}</div>
+        <div class="pl-name">${esc(s.title)}</div>
+        <div class="pl-by">${esc(s.artist)}</div>
       </div>
-      ${s.duration ? `<span class="pl-dur vt">${s.duration}</span>` : ''}
+      <button class="pl-remove" data-src="${esc(s.src)}" title="Remove">♥</button>
     `;
-    el.addEventListener('click', () => loadTrack(i, true));
-    playlist.appendChild(el);
+    el.querySelector('.pl-details').addEventListener('click', () => loadTrack(i, true));
+    el.querySelector('.pl-remove').addEventListener('click', e => {
+      e.stopPropagation();
+      removeFromQueue(s.src);
+      if (window.refreshDiscover) window.refreshDiscover();
+    });
+    playlistEl.appendChild(el);
   });
 }
 
 function loadTrack(index, autoPlay = true) {
-  currentIndex = index;
-  const s = songs[index];
+  if (!queue.length) return;
+  currentIdx = index;
+  const s = queue[index];
 
-  audio.src = s.src;
+  audio.src           = s.src;
   trackTitle.textContent  = s.title;
   trackArtist.textContent = s.artist;
-  document.title          = `${s.title} — STATIC`;
+  document.title          = `${s.title} — BLINK`;
 
-  // cover art
   if (s.cover) {
     coverImg.src = s.cover;
     document.body.classList.add('has-cover');
@@ -92,30 +154,25 @@ function loadTrack(index, autoPlay = true) {
     document.body.classList.remove('has-cover');
   }
 
-  // active playlist item
   document.querySelectorAll('.pl-item').forEach((el, i) => {
     el.classList.toggle('active', i === index);
   });
 
-  const active = playlist.querySelector('.pl-item.active');
+  const active = playlistEl.querySelector('.pl-item.active');
   if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 
-  // title scroll for long names
   trackTitle.classList.remove('scroll');
-  // check after render
   requestAnimationFrame(() => {
-    if (trackTitle.scrollWidth > trackTitle.parentElement.offsetWidth + 4) {
+    if (trackTitle.scrollWidth > trackTitle.parentElement.offsetWidth + 4)
       trackTitle.classList.add('scroll');
-    }
   });
 
-  seekFill.style.width = '0%';
-  seekInput.value      = 0;
-  timeNow.textContent  = '0:00';
+  seekFill.style.width  = '0%';
+  seekInput.value       = 0;
+  timeNow.textContent   = '0:00';
   timeTotal.textContent = '0:00';
 
-  if (autoPlay) play();
-  else pause();
+  if (autoPlay) play(); else pause();
 }
 
 function play() {
@@ -133,43 +190,34 @@ function pause() {
 }
 
 function togglePlay() {
-  if (!songs || !songs.length) return;
+  if (!queue.length) return;
   isPlaying ? pause() : play();
 }
 
 function goNext() {
-  if (!songs.length) return;
-  let next;
-  if (shuffling) {
-    const pos = shuffled.indexOf(currentIndex);
-    next = shuffled[(pos + 1) % shuffled.length];
-  } else {
-    next = (currentIndex + 1) % songs.length;
-  }
+  if (!queue.length) return;
+  let next = shuffling
+    ? shuffled[(shuffled.indexOf(currentIdx) + 1) % shuffled.length]
+    : (currentIdx + 1) % queue.length;
   loadTrack(next, isPlaying);
 }
 
 function goPrev() {
-  if (!songs.length) return;
-  if (audio.currentTime > 3) {
-    audio.currentTime = 0;
-    return;
-  }
-  let prev;
-  if (shuffling) {
-    const pos = shuffled.indexOf(currentIndex);
-    prev = shuffled[(pos - 1 + shuffled.length) % shuffled.length];
-  } else {
-    prev = (currentIndex - 1 + songs.length) % songs.length;
-  }
+  if (!queue.length) return;
+  if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+  let prev = shuffling
+    ? shuffled[(shuffled.indexOf(currentIdx) - 1 + shuffled.length) % shuffled.length]
+    : (currentIdx - 1 + queue.length) % queue.length;
   loadTrack(prev, isPlaying);
 }
 
 function fmt(s) {
   if (isNaN(s) || s < 0) return '0:00';
-  const m = Math.floor(s / 60);
-  const sec = Math.floor(s % 60);
-  return `${m}:${String(sec).padStart(2, '0')}`;
+  return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ── audio events ──
@@ -187,29 +235,19 @@ audio.addEventListener('loadedmetadata', () => {
 });
 
 audio.addEventListener('ended', () => {
-  if (repeating) {
-    audio.currentTime = 0;
-    play();
-  } else {
-    goNext();
-  }
+  if (repeating) { audio.currentTime = 0; play(); }
+  else goNext();
 });
 
-// ── seek ──
 seekInput.addEventListener('input', () => {
   if (!audio.duration) return;
-  const pct = seekInput.value;
-  seekFill.style.width = pct + '%';
-  audio.currentTime    = (pct / 100) * audio.duration;
+  seekFill.style.width = seekInput.value + '%';
+  audio.currentTime    = (seekInput.value / 100) * audio.duration;
 });
 
-// ── volume ──
 audio.volume = 0.8;
-volSlider.addEventListener('input', () => {
-  audio.volume = volSlider.value;
-});
+volSlider.addEventListener('input', () => { audio.volume = volSlider.value; });
 
-// ── controls ──
 btnPlay.addEventListener('click', togglePlay);
 btnNext.addEventListener('click', goNext);
 btnPrev.addEventListener('click', goPrev);
@@ -225,32 +263,14 @@ btnRepeat.addEventListener('click', () => {
   btnRepeat.classList.toggle('active', repeating);
 });
 
-// ── keyboard shortcuts ──
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT') return;
   switch (e.key) {
-    case ' ':
-      e.preventDefault();
-      togglePlay();
-      break;
-    case 'ArrowRight':
-      e.preventDefault();
-      goNext();
-      break;
-    case 'ArrowLeft':
-      e.preventDefault();
-      goPrev();
-      break;
-    case 'ArrowUp':
-      e.preventDefault();
-      audio.volume = Math.min(1, audio.volume + 0.05);
-      volSlider.value = audio.volume;
-      break;
-    case 'ArrowDown':
-      e.preventDefault();
-      audio.volume = Math.max(0, audio.volume - 0.05);
-      volSlider.value = audio.volume;
-      break;
+    case ' ':          e.preventDefault(); togglePlay(); break;
+    case 'ArrowRight': e.preventDefault(); goNext(); break;
+    case 'ArrowLeft':  e.preventDefault(); goPrev(); break;
+    case 'ArrowUp':    e.preventDefault(); audio.volume = Math.min(1, audio.volume + 0.05); volSlider.value = audio.volume; break;
+    case 'ArrowDown':  e.preventDefault(); audio.volume = Math.max(0, audio.volume - 0.05); volSlider.value = audio.volume; break;
   }
 });
 
