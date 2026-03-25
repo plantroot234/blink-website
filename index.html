@@ -1,176 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blink Client — Minecraft PvP Advantage</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STATIC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500;600&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <span class="logo">⚡ Blink Client</span>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <button onclick="openModal()" style="background:transparent;border:1px solid var(--border);color:var(--text);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:0.9rem;" id="nav-auth-btn">Login</button>
-      <a href="#pricing" class="nav-buy">Get Access</a>
-    </div>
-  </nav>
+<div class="scanlines"></div>
 
-  <!-- AUTH MODAL -->
-  <div id="modal-bg" onclick="closeModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;backdrop-filter:blur(4px);"></div>
-  <div id="modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:201;background:#0d0d1a;border:1px solid rgba(0,191,255,0.25);border-radius:16px;padding:36px;width:100%;max-width:400px;">
-    <div style="display:flex;gap:0;margin-bottom:24px;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
-      <button class="modal-tab active" id="mtab-in" onclick="setModalMode('in')" style="flex:1;padding:10px;background:var(--accent);color:#000;border:none;font-weight:700;cursor:pointer;">Sign In</button>
-      <button class="modal-tab" id="mtab-up" onclick="setModalMode('up')" style="flex:1;padding:10px;background:transparent;color:var(--muted);border:none;font-weight:700;cursor:pointer;">Sign Up</button>
+<header>
+  <a class="logo" href="#">
+    <span class="logo-text" data-text="STATIC">STATIC</span>
+    <span class="logo-fm">fm</span>
+  </a>
+  <div class="header-right">
+    <span class="live-counter vt" id="liveCounter">▶ 00:00</span>
+    <div class="rec-badge">
+      <span class="rec-dot"></span>
+      <span class="vt">REC</span>
     </div>
-    <div style="margin-bottom:14px;">
-      <label style="display:block;margin-bottom:6px;font-size:0.82rem;color:var(--muted);">Email</label>
-      <input id="m-email" type="email" placeholder="you@example.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-size:0.95rem;outline:none;box-sizing:border-box;" />
-    </div>
-    <div style="margin-bottom:20px;">
-      <label style="display:block;margin-bottom:6px;font-size:0.82rem;color:var(--muted);">Password</label>
-      <input id="m-password" type="password" placeholder="••••••••" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--text);font-size:0.95rem;outline:none;box-sizing:border-box;" />
-    </div>
-    <button onclick="modalSubmit()" id="m-btn" style="width:100%;background:var(--accent);color:#000;border:none;border-radius:8px;padding:12px;font-size:1rem;font-weight:800;cursor:pointer;">Sign In</button>
-    <div id="m-msg" style="margin-top:12px;text-align:center;font-size:0.88rem;min-height:18px;"></div>
   </div>
+</header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-glow"></div>
-    <h1>Dominate Every Server.<br><span class="accent">Undetected.</span></h1>
-    <p class="subtitle">
-      The most advanced Minecraft Fabric hack client for 1.20.4 · 1.21.1 · 1.21.11.<br>
-      ESP, Kill Aura, Speed, Fly — all in one clean menu.
-    </p>
-    <a href="#pricing" class="btn-primary">Get Blink Client →</a>
-  </section>
+<div class="layout">
 
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <h2>Everything you need to <span class="accent">win</span></h2>
-    <div class="grid">
-
-      <div class="card">
-        <div class="card-icon">👁️</div>
-        <h3>ESP</h3>
-        <p>See players and mobs through walls. Red = players, green = mobs.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">⚔️</div>
-        <h3>Kill Aura</h3>
-        <p>Auto-attacks in a 360° radius. No lag — only fires when cooldown is ready.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">💨</div>
-        <h3>Speed &amp; Fly</h3>
-        <p>Speed up to 5×. Full fly mode. One key toggle.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🥷</div>
-        <h3>Fast Sneak</h3>
-        <p>Sneak at full walk speed.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🦘</div>
-        <h3>Infinite Jump</h3>
-        <p>Hold space, jump forever.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">💎</div>
-        <h3>Auto Crystal</h3>
-        <p>Auto-places end crystals on obsidian and bedrock.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🧸</div>
-        <h3>Auto Totem</h3>
-        <p>Keeps a totem in your offhand automatically.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🔰</div>
-        <h3>No Fall &amp; Low Knockback</h3>
-        <p>Zero fall damage. Knockback reduced to 5%.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🪄</div>
-        <h3>Small Items</h3>
-        <p>Dropped items render at 30% size.</p>
-      </div>
-
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <span class="sidebar-label">THE TAPE</span>
+      <span class="sidebar-count vt" id="trackCount">0 tracks</span>
     </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="how" id="how">
-    <h2>Up and running in <span class="accent">2 minutes</span></h2>
-    <div class="steps">
-      <div class="step"><span class="step-num">1</span><p>Install <a href="https://fabricmc.net/use/installer/" target="_blank">Fabric Loader</a> for your MC version</p></div>
-      <div class="step"><span class="step-num">2</span><p>Drop <strong>Blink Client</strong> + <a href="https://modrinth.com/mod/fabric-api" target="_blank">Fabric API</a> into your mods folder</p></div>
-      <div class="step"><span class="step-num">3</span><p>Launch Minecraft and press <kbd>Shift + Tab</kbd> to open the hack menu</p></div>
-    </div>
-  </section>
-
-  <!-- VERSIONS -->
-  <section class="versions">
-    <h2>Supported Versions</h2>
-    <div class="version-tags">
-      <span class="tag">1.20.4</span>
-      <span class="tag">1.21.1</span>
-      <span class="tag tag-new">1.21.11 ✨ New</span>
-    </div>
-    <p class="small">More versions added regularly. Lifetime access includes all future updates.</p>
-  </section>
-
-  <!-- PRICING -->
-  <section class="pricing" id="pricing">
-    <h2>Get <span class="accent">Blink Client</span></h2>
-
-    <div class="price-cards">
-
-      <div class="price-card">
-        <div class="plan-name">One-Time</div>
-        <div class="price">$9<span class="period"> one-time</span></div>
-        <ul>
-          <li>✅ All current hacks</li>
-          <li>✅ All 3 MC versions</li>
-          <li>✅ All future updates</li>
-          <li>✅ Download key via email</li>
-        </ul>
-        <button class="btn-buy" onclick="checkout('lifetime')">Buy Now — $9</button>
+    <div class="playlist" id="playlist">
+      <div class="playlist-empty">
+        <p class="vt empty-big">NO SIGNAL</p>
+        <p class="empty-sub">drop your songs in songs.js<br>to get started</p>
       </div>
+    </div>
+  </aside>
 
+  <main class="player">
+
+    <div class="cover-area">
+      <div class="cover-frame" id="coverFrame">
+        <img class="cover-img" id="coverImg" src="" alt="">
+        <div class="cover-placeholder" id="coverPlaceholder">
+          <div class="ph-noise"></div>
+          <span class="vt ph-text">NO TAPE</span>
+        </div>
+        <div class="cover-vignette"></div>
+        <div class="tracking-line"></div>
+      </div>
+      <div class="eq" id="eq">
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+      </div>
     </div>
 
-    <p class="small trust">Payments processed by <strong>Stripe</strong>. Secure 256-bit SSL. Download link delivered to your email instantly.</p>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq">
-    <h2>FAQ</h2>
-    <div class="faq-list">
-      <details><summary>Will I get banned?</summary><p>Blink Client runs entirely client-side. Like any client mod, use on servers that allow modifications. We're not responsible for server bans.</p></details>
-      <details><summary>What Minecraft version do I need?</summary><p>Blink Client supports 1.20.4, 1.21.1, and 1.21.11. You also need Fabric Loader and Fabric API installed.</p></details>
-      <details><summary>How do I get the mod after paying?</summary><p>A download link is sent to your email within seconds of payment. Check your spam folder if you don't see it.</p></details>
-      <details><summary>Can I use the same purchase on multiple accounts?</summary><p>Your license is for personal use — one person, any number of your own accounts.</p></details>
+    <div class="track-info">
+      <p class="now-label vt">// NOW PLAYING</p>
+      <div class="track-title-wrap">
+        <h2 class="track-title" id="trackTitle">nothing yet</h2>
+      </div>
+      <p class="track-artist" id="trackArtist">pick something from the tape</p>
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <span>⚡ Blink Client</span>
-    <span>Not affiliated with Mojang or Microsoft.</span>
-  </footer>
+    <div class="seek-row">
+      <span class="time vt" id="timeNow">0:00</span>
+      <div class="seek-bar">
+        <div class="seek-fill" id="seekFill"></div>
+        <input class="seek-input" id="seekInput" type="range" min="0" max="100" value="0" step="0.05">
+      </div>
+      <span class="time vt" id="timeTotal">0:00</span>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js"></script>
+    <div class="controls">
+      <button class="ctrl-btn" id="btnShuffle" title="Shuffle">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+      </button>
+      <button class="ctrl-btn" id="btnPrev" title="Previous">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+      </button>
+      <button class="ctrl-btn play-btn" id="btnPlay" title="Play">
+        <svg class="ico-play" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="ico-pause" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <button class="ctrl-btn" id="btnNext" title="Next">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>
+      </button>
+      <button class="ctrl-btn" id="btnRepeat" title="Repeat">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </button>
+    </div>
+
+    <div class="vol-row">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" class="vol-icon"><path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/></svg>
+      <input class="vol-slider" id="volSlider" type="range" min="0" max="1" step="0.01" value="0.8">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" class="vol-icon"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+    </div>
+
+  </main>
+</div>
+
+<audio id="audio"></audio>
+<script src="songs.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
