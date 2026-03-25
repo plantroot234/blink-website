@@ -22,10 +22,24 @@ let repeating    = false;
 let isPlaying    = false;
 let shuffled     = [];
 
-function init() {
-  if (!window.songs || !songs.length) return;
+async function init() {
+  // merge static songs with API-approved songs
+  let allSongs = window.songs ? [...songs] : [];
 
-  trackCount.textContent = `${songs.length} track${songs.length !== 1 ? 's' : ''}`;
+  try {
+    const res = await fetch('/api/approved');
+    if (res.ok) {
+      const approved = await res.json();
+      approved.forEach(s => allSongs.push({ title: s.title, artist: s.artist, src: s.url }));
+    }
+  } catch (_) {}
+
+  // replace global songs with merged list
+  window.songs = allSongs;
+
+  if (!allSongs.length) return;
+
+  trackCount.textContent = allSongs.length;
   buildShuffleOrder();
   renderPlaylist();
   loadTrack(0, false);
