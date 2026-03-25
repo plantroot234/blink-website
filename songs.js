@@ -13,7 +13,7 @@ const songs = [
   {
     title:  "Midnight Sun",
     artist: "Ramzoid x Hal Walker",
-    src:    "songs/midnight sun (ramzoid x hal walker).mp3",
+    src:    "songs/midnight%20sun%20(ramzoid%20x%20hal%20walker).mp3",
   },
 
   // {

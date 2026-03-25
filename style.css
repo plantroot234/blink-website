@@ -660,116 +660,71 @@ body.playing .eq-bar:nth-child(12) { animation: eq 0.41s ease-in-out 0.20s infin
 
 .theme-switch {
   font-family: 'VT323', monospace;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--muted);
   text-decoration: none;
-  letter-spacing: 0.05em;
-  transition: color 0.15s;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  transition: color 0.15s, border-color 0.15s;
 }
 
 .theme-switch:hover {
   color: var(--accent);
+  border-color: var(--accent);
 }
 
-/* ── powered by claude button ── */
-.brutalist-button {
+/* ── powered by null ── */
+.powered-null {
   display: flex;
   align-items: center;
-  width: 210px;
-  height: 56px;
-  background-color: #e3d19c;
-  color: #89530e;
+  gap: 8px;
   text-decoration: none;
-  font-family: Arial, sans-serif;
-  font-weight: bold;
-  border: 3px solid #ffffff;
-  outline: 3px solid #1a1a1a;
-  box-shadow: 6px 6px 0 #ff6c37;
-  transition: all 0.2s ease-out;
-  padding: 0 12px;
-  box-sizing: border-box;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.15s, background 0.15s;
   position: relative;
   overflow: hidden;
 }
 
-.brutalist-button::before {
-  content: "";
+.powered-null::before {
+  content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(from 0deg at 50% 50%, #ff6c37, #9a77ff, #ff6c37);
-  opacity: 0;
-  transition: opacity 0.3s ease-out;
-  z-index: 1;
-  animation: btn-rotate 4s linear infinite;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(194,255,77,0.05), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
 }
 
-@keyframes btn-rotate {
-  100% { transform: rotate(360deg); }
+.powered-null:hover::before {
+  transform: translateX(100%);
 }
 
-.brutalist-button:hover::before { opacity: 0.15; }
-.brutalist-button:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0 #ff6c37;
-}
-.brutalist-button:active {
-  transform: translate(3px, 3px);
-  box-shadow: 0 0 0 #ff6c37;
-  background-color: #fff;
-  color: #1a1a1a;
+.powered-null:hover {
+  border-color: var(--accent);
+  background: var(--surface2);
 }
 
-.claude-logo {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-  position: relative;
-  z-index: 2;
-}
-
-.starburst {
-  font-size: 22px;
-  color: #eb6c22;
-  margin-right: 5px;
-  text-shadow: 1px 1px 0 #1a1a1a;
-  transition: transform 0.2s ease-out;
-}
-
-.brutalist-button:hover .starburst { transform: rotate(-15deg) scale(1.1); }
-.brutalist-button:active .starburst { transform: rotate(15deg) scale(0.9); }
-
-.claude-text {
-  font-family: Georgia, serif;
-  font-size: 19px;
-  font-weight: normal;
-  letter-spacing: 0.5px;
-  text-shadow: 1px 1px 0 #e3d19c;
-}
-
-.button-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-  position: relative;
-  z-index: 2;
-}
-
-.brutalist-button:hover .button-text { transform: skew(-5deg); }
-.brutalist-button:active .button-text { transform: skew(5deg); }
-
-.button-text span:first-child {
-  font-size: 9px;
+.pn-by {
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  font-weight: 500;
 }
 
-.button-text span:last-child {
-  font-size: 15px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.pn-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  transition: color 0.15s;
+}
+
+.powered-null:hover .pn-name {
+  color: var(--accent);
 }
 
 /* ── responsive ── */
